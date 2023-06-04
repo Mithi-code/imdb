@@ -29,8 +29,8 @@ const MovieList = () => {
             <h2 className="list__title">{(type ? type : "POPULAR").toUpperCase()}</h2>
             <div className="list__cards">
                 {
-                    movieList.map(movie => (
-                        <Cards movie={movie} />
+                    movieList.map((movie, index) => (
+                        <Cards movie={movie} key={index}/>
                     ))
                 }
             </div>
