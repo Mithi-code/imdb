@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./Home.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
 import MovieList from "../../components/MovieList/MovieList";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchMovies } from "../../Redux/movieSlice";
 
 const Home = () => {
-  const [popularMovies, setPopularMovies] = useState([]);
-
-  const getMovies = () => {
-    fetch(
-      "https://api.themoviedb.org/3/movie/popular?api_key=ebab107d0e771faee711646843039664&language=en-US"
-    )
-      .then((res) => res.json())
-      .then((data) => setPopularMovies(data.results));
-  };
+  const movies = useSelector((state) => state.movies);
+  const dispatch = useDispatch();
   useEffect(() => {
-    getMovies();
-  });
+    dispatch(fetchMovies());
+  }, [dispatch]);
 
   return (
     <>
@@ -29,8 +24,9 @@ const Home = () => {
           infiniteLoop={true}
           showStatus={false}
         >
-          {popularMovies.map((movie) => (
-            <Link key={movie.id}
+          {movies.map((movie) => (
+            <Link
+              key={movie.id}
               style={{ textDecoration: "none", color: "white" }}
               to={`/movie/${movie.id}`}
             >
